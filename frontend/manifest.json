@@ -2,10 +2,10 @@
   "name": "Safe Route Finder",
   "short_name": "SafeRoute",
   "description": "Find the safest route for night travel",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
   "orientation": "portrait",
   "icons": [
     {

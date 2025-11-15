@@ -1,323 +1,521 @@
+// ---------------------------------------------------------
+// SafeRoute - Frontend Logic (FINAL FIXED VERSION)
+// ---------------------------------------------------------
 
-// Global variables
 let map;
-let crimeMarkers = [];
-let routeLayers = []; // array of polylines for multiple routes
-let selectedRouteIndex = null;
+let userMarker = null;
+let routePolylines = [];
 let userLocation = null;
 
-// 🆕 NEW — Track start/end markers and user marker
-let startEndMarkers = [];
-let userMarker = null;
+const API = CONFIG.API_URL;
+const AUTH_KEY = CONFIG.AUTH_KEY;
 
-// Initialize app when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    initMap();
-    loadCrimeData();
-    setupEventListeners();
-    updateCurrentTime();
-    initAutocomplete(); 
-    testBackendConnection();
-});
+// ---------------------------------------------------------
+// TOAST (non-blocking, fixes map disappearance)
+// ---------------------------------------------------------
+function toast(msg, color = "#4CAF50") {
+  const t = document.getElementById("toast");
+  t.style.background = color;
+  t.innerText = msg;
+  t.classList.add("show");
 
-// 1. INIT MAP
+  setTimeout(() => {
+    t.classList.remove("show");
+  }, 2600);
+}
+
+// ---------------------------------------------------------
+// Map Initialization
+// ---------------------------------------------------------
 function initMap() {
-    map = L.map('map').setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-}
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: { lat: 17.4401, lng: 78.3489 }
+  });
 
-// 2. BACKEND CONNECTIVITY TEST
-async function testBackendConnection() {
-    try {
-        const response = await fetch(`${CONFIG.API_URL}/`);
-        const data = await response.json();
-        console.log("✅ Backend connected:", data.message);
-    } catch (error) {
-        console.error("❌ Backend connection failed:", error);
-        alert("Backend not running! Start Flask on port 5000.");
-    }
-}
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      map.setCenter(userLocation);
 
-// 3. LOAD CRIME DATA
-async function loadCrimeData() {
-    try {
-        const response = await fetch(`${CONFIG.API_URL}/api/crime-data`);
-        const data = await response.json();   
-        const crimes = data.crimes || [];     
-
-        crimeMarkers.forEach(m => map.removeLayer(m));
-        crimeMarkers = [];
-
-        crimes.forEach(crime => {
-            const color = CONFIG.CRIME_COLORS[crime.severity] || "#999";
-            const marker = L.circleMarker([crime.latitude, crime.longitude], {
-                radius: 8,
-                fillColor: color,
-                color: "#fff",
-                weight: 2,
-                fillOpacity: 0.7
-            }).addTo(map);
-
-            marker.bindPopup(`
-                <strong>${crime.type}</strong><br>
-                Severity: ${crime.severity}/5
-            `);
-
-            crimeMarkers.push(marker);
-        });
-
-    } catch (error) {
-        console.error("❌ Error loading crime data:", error);
-    }
-}
-
-
-// 4. EVENT LISTENERS
-function setupEventListeners() {
-    document.getElementById("findRouteBtn").addEventListener("click", calculateRoute);
-    document.getElementById("useCurrentLocation").addEventListener("click", getCurrentLocation);
-    document.getElementById("reportIncidentBtn").addEventListener("click", openReportModal);
-    document.getElementById("viewStatsBtn").addEventListener("click", toggleStatsChart);
-    document.getElementById("reportForm").addEventListener("submit", submitIncidentReport);
-    document.querySelector(".close").addEventListener("click", closeReportModal);
-}
-
-// 5. GET USER LOCATION
-function getCurrentLocation() {
-    if (!navigator.geolocation) { alert("Geolocation not supported"); return; }
-    const btn = document.getElementById("useCurrentLocation");
-    btn.textContent = "Getting location...";
-    btn.disabled = true;
-
-    navigator.geolocation.getCurrentPosition(pos => {
-        userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        document.getElementById("startInput").value = `${userLocation.lat}, ${userLocation.lng}`;
-        map.setView([userLocation.lat, userLocation.lng], 15);
-
-        // 🆕 NEW — Remove old user marker if exists
-        if (userMarker) map.removeLayer(userMarker);
-
-        userMarker = L.marker([userLocation.lat, userLocation.lng]).addTo(map).bindPopup("📍 You are here").openPopup();
-        
-        btn.textContent = "Use My Location"; 
-        btn.disabled = false;
-    }, err => {
-        alert("Location unavailable"); 
-        btn.textContent = "Use My Location"; 
-        btn.disabled = false;
+      userMarker = new google.maps.Marker({
+        position: userLocation,
+        map: map,
+        title: "Your location",
+        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+      });
     });
+  }
 }
 
-// 6. AUTOCOMPLETE (Places)
-function initAutocomplete() {
+window.initMap = initMap;
+
+// ---------------------------------------------------------
+// RELIABLE MAP RESIZE
+// ---------------------------------------------------------
+function forceMapResize() {
+  if (!map) return;
+
+  const attempt = () => {
     try {
-        const startInput = document.getElementById("startInput");
-        const endInput = document.getElementById("endInput");
-        if (window.google && google.maps && google.maps.places) {
-            new google.maps.places.Autocomplete(startInput);
-            new google.maps.places.Autocomplete(endInput);
-            console.log("✅ Google Places Autocomplete enabled");
-        } else {
-            console.log("⚠️ Google Places library not loaded (check API key/script).");
-        }
-    } catch (e) {
-        console.warn("Autocomplete init error:", e);
-    }
+      google.maps.event.trigger(map, "resize");
+      if (userLocation) map.setCenter(userLocation);
+    } catch {}
+  };
+
+  setTimeout(attempt, 80);
+  setTimeout(attempt, 250);
+  setTimeout(attempt, 600);
+  setTimeout(attempt, 1000);
 }
 
+// ---------------------------------------------------------
+// Auth Helpers
+// ---------------------------------------------------------
+function getToken() {
+  return localStorage.getItem(AUTH_KEY);
+}
+function setToken(t) {
+  if (!t) localStorage.removeItem(AUTH_KEY);
+  else localStorage.setItem(AUTH_KEY, t);
+}
 
-// 7. CALCULATE ROUTE
+function authHeaders() {
+  const t = getToken();
+  return t ? { "Authorization": "Bearer " + t } : {};
+}
+
+// ---------------------------------------------------------
+// Draw Routes
+// ---------------------------------------------------------
+function drawRoute(points, color = "#4CAF50") {
+  const path = points.map(p => ({ lat: p[0], lng: p[1] }));
+  const polylineObj = new google.maps.Polyline({
+    path,
+    geodesic: true,
+    strokeColor: color,
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
+    map
+  });
+  routePolylines.push(polylineObj);
+}
+
+function clearRoutes() {
+  routePolylines.forEach(r => r.setMap(null));
+  routePolylines = [];
+}
+
+// ---------------------------------------------------------
+// Route Calculation
+// ---------------------------------------------------------
 async function calculateRoute() {
-    const startText = document.getElementById('startInput').value.trim();
-    const endText = document.getElementById('endInput').value.trim();
-    if (!startText || !endText) { alert("Enter both start and destination"); return; }
+  const start = document.getElementById("start").value;
+  const end = document.getElementById("end").value;
 
-    document.getElementById("loadingOverlay").classList.remove("hidden");
+  if (!start || !end) {
+    toast("Please enter both start and destination", "#d9534f");
+    return;
+  }
 
-    try {
-        const resp = await fetch(`${CONFIG.API_URL}/api/calculate-route`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ start: startText, end: endText })
-        });
-        const data = await resp.json();
+  document.getElementById("routeStatus").innerText = "Calculating route...";
 
-        if (!data.success) { alert("Error: " + (data.error || "Route failed")); return; }
-
-        // 🆕 NEW — Remove previous route polylines
-        routeLayers.forEach(l => map.removeLayer(l));
-        routeLayers = [];
-
-        // 🆕 NEW — Remove old start/end markers
-        startEndMarkers.forEach(m => map.removeLayer(m));
-        startEndMarkers = [];
-
-        selectedRouteIndex = null;
-
-        data.routes.forEach((r, idx) => {
-            const pts = r.points.map(p => [p[0], p[1]]);
-            const color = r.safety_score >= 80 ? "#10b981" :
-                          r.safety_score >= 60 ? "#f59e0b" :
-                          r.safety_score >= 40 ? "#f97316" : "#ef4444";
-
-            const poly = L.polyline(pts, { color, weight: 5, opacity: 0.8 }).addTo(map);
-            poly.bindPopup(`<strong>Route ${idx + 1}</strong><br>Safety: ${r.safety_score}<br>Crimes: ${r.crime_count}<br>Distance: ${r.distance}<br>Duration: ${r.duration}`);
-            poly.on('click', () => selectRoute(idx));
-            routeLayers.push(poly);
-        });
-
-        // 🆕 NEW — Add new start marker
-        const startMarker = L.marker([data.start.lat, data.start.lng]).addTo(map).bindPopup("🚀 Start");
-        startEndMarkers.push(startMarker);
-        startMarker.openPopup();
-
-        // 🆕 NEW — Add new end marker
-        const endMarker = L.marker([data.end.lat, data.end.lng]).addTo(map).bindPopup("🎯 Destination");
-        startEndMarkers.push(endMarker);
-
-        const best = data.best_index ?? 0;
-        selectRoute(best);
-
-    } catch (error) {
-        console.error("❌ Route error:", error);
-        alert("Server error. Check backend logs.");
-    } finally {
-        document.getElementById("loadingOverlay").classList.add("hidden");
-    }
-}
-
-function updateCurrentTime() {
-    const el = document.getElementById("currentTime");
-    setInterval(() => {
-        el.textContent = new Date().toLocaleString();
-    }, 1000);
-}
-
-
-// Select (highlight) a route by index
-function selectRoute(index) {
-    if (!routeLayers || !routeLayers[index]) return;
-
-    routeLayers.forEach((layer, i) => {
-        layer.setStyle({ weight: 5, opacity: 0.6 });
-        if (i === index) layer.setStyle({ weight: 8, opacity: 1.0 });
+  try {
+    const res = await fetch(`${API}/api/calculate-route`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authHeaders() },
+      body: JSON.stringify({ start, end })
     });
 
-    map.fitBounds(routeLayers[index].getBounds(), { padding: [30, 30] });
-    routeLayers[index].openPopup();
+    const data = await res.json();
 
-    const popup = routeLayers[index].getPopup();
-    if (popup) {
-        const html = popup.getContent();
-        const safetyMatch = html.match(/Safety:\s*([0-9]+)/);
-        const crimeMatch = html.match(/Crimes:\s*([0-9]+)/);
-        const durationMatch = html.match(/Duration:\s*([^<]+)/);
-        const distanceMatch = html.match(/Distance:\s*([^<]+)/);
-
-        const safety = safetyMatch ? parseInt(safetyMatch[1], 10) : "--";
-        const crimes = crimeMatch ? parseInt(crimeMatch[1], 10) : "--";
-        const duration = durationMatch ? durationMatch[1].trim() : "--";
-        const distance = distanceMatch ? distanceMatch[1].trim() : "--";
-
-        displaySafetyScore(safety, crimes);
-        const durEl = document.getElementById("routeDuration");
-        const disEl = document.getElementById("routeDistance");
-        if (durEl) durEl.textContent = duration;
-        if (disEl) disEl.textContent = distance;
+    if (!data.success) {
+      document.getElementById("routeStatus").innerText = "Error: " + data.error;
+      toast(data.error, "#d9534f");
+      return;
     }
 
-    selectedRouteIndex = index;
+    clearRoutes();
+
+    data.routes.forEach(r => drawRoute(r.points, "#B0B0B0"));
+
+    const best = data.routes[data.best_index];
+    drawRoute(best.points, "#00C851");
+
+    document.getElementById("routeStatus").innerText =
+      `Best Route: ${best.distance} | ${best.duration} | Safety: ${best.safety_score}`;
+
+    toast("Route calculated!");
+
+  } catch (err) {
+    console.error(err);
+    toast("Failed to calculate route", "#d9534f");
+  }
 }
 
-// SAFETY SCORE DISPLAY
-function displaySafetyScore(score, crimeCount) {
-    const scoreEl = document.getElementById("safetyScore");
-    const crimeEl = document.getElementById("crimeCount");
-    if (scoreEl) scoreEl.textContent = score;
-    if (crimeEl) crimeEl.textContent = crimeCount;
+// ---------------------------------------------------------
+// Authentication Logic
+// ---------------------------------------------------------
+async function loadAuthState() {
+  const token = getToken();
+  const loginBtn = document.getElementById("openLoginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-    const level = document.getElementById("safetyLevel");
-    if (!level) return;
-    if (score >= 80) { level.textContent = "Very Safe"; level.style.color = "#10b981"; }
-    else if (score >= 60) { level.textContent = "Moderately Safe"; level.style.color = "#f59e0b"; }
-    else if (score >= 40) { level.textContent = "Use Caution"; level.style.color = "#f97316"; }
-    else { level.textContent = "High Risk"; level.style.color = "#ef4444"; }
-}
+  if (!token) {
+    loginBtn.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    document.getElementById("profileName").innerText = "Guest";
+    document.getElementById("profileEmail").innerText = "";
+    forceMapResize();
+    return;
+  }
 
-function getSafetyColor(score) {
-    if (score >= 80) return "#10b981";
-    if (score >= 60) return "#f59e0b";
-    if (score >= 40) return "#f97316";
-    return "#ef4444";
-}
+  try {
+    const resp = await fetch(`${API}/api/me`, { headers: authHeaders() });
+    const data = await resp.json();
 
-// REPORT INCIDENT
-function openReportModal() { document.getElementById("reportModal").style.display = "block"; }
-function closeReportModal() { document.getElementById("reportModal").style.display = "none"; }
-
-async function submitIncidentReport(e) {
-    e.preventDefault();
-    const type = document.getElementById("incidentType").value;
-    const desc = document.getElementById("incidentDescription").value;
-    const useLoc = document.getElementById("useCurrentLocationForReport").checked;
-    if (!type) return alert("Select a type");
-
-    let lat, lng;
-    if (useLoc) {
-        if (!userLocation) return alert("Enable location first");
-        lat = userLocation.lat; 
-        lng = userLocation.lng;
+    if (data.success) {
+      loginBtn.classList.add("hidden");
+      logoutBtn.classList.remove("hidden");
+      document.getElementById("profileName").innerText = data.user.name || data.user.email;
+      document.getElementById("profileEmail").innerText = data.user.email;
     } else {
-        const c = map.getCenter(); 
-        lat = c.lat; 
-        lng = c.lng;
+      setToken(null);
     }
+  } catch {
+    setToken(null);
+  }
+
+  forceMapResize();
+}
+
+// ---------------------------------------------------------
+// Login Modal
+// ---------------------------------------------------------
+function setupAuthUI() {
+  const modal = document.getElementById("authModal");
+  const openBtn = document.getElementById("openLoginBtn");
+  const closeBtn = document.getElementById("authClose");
+  const toggleMode = document.getElementById("toggleAuthMode");
+  const form = document.getElementById("authForm");
+  const title = document.getElementById("authTitle");
+  const nameGroup = document.getElementById("nameGroup");
+  const submitBtn = document.getElementById("authSubmit");
+
+  let mode = "login";
+
+  openBtn.onclick = () => {
+    modal.classList.remove("hidden");
+    forceMapResize();
+  };
+  closeBtn.onclick = () => {
+    modal.classList.add("hidden");
+    forceMapResize();
+  };
+
+  toggleMode.onclick = (e) => {
+    e.preventDefault();
+    mode = mode === "login" ? "register" : "login";
+
+    title.innerText = mode === "login" ? "Login" : "Register";
+    submitBtn.innerText = mode === "login" ? "Login" : "Register";
+    nameGroup.style.display = mode === "register" ? "block" : "none";
+
+    forceMapResize();
+  };
+
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("authEmail").value;
+    const password = document.getElementById("authPassword").value;
+    const name = document.getElementById("authName").value;
+
+    const body = mode === "login"
+      ? { email, password }
+      : { email, password, name };
 
     try {
-        const response = await fetch(`${CONFIG.API_URL}/api/report-incident`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ latitude: lat, longitude: lng, report_type: type, description: desc })
-        });
-        const data = await response.json();
-        if (data.success) { alert("Incident reported!"); closeReportModal(); loadCrimeData(); }
-    } catch (error) { alert("Server error while reporting."); }
-}
+      const res = await fetch(`${API}/api/${mode}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
 
-// CHART STATS
-async function toggleStatsChart() {
-    const chart = document.getElementById("chartSection");
-    if (chart.classList.contains("hidden")) { 
-        chart.classList.remove("hidden"); 
-        await loadCrimeStats(); 
+      const data = await res.json();
+
+      if (data.success) {
+        setToken(data.token);
+        modal.classList.add("hidden");
+        await loadAuthState();
+
+        toast(mode === "login" ? "Logged in!" : "Registered!");
+      } else {
+        toast(data.error, "#d9534f");
+      }
+    } catch {
+      toast("Authentication failed", "#d9534f");
     }
-    else chart.classList.add("hidden");
+  };
 }
 
-async function loadCrimeStats() {
+// ---------------------------------------------------------
+// Logout
+// ---------------------------------------------------------
+function setupLogout() {
+  const btn = document.getElementById("logoutBtn");
+  btn.onclick = () => {
+    setToken(null);
+    loadAuthState();
+    toast("Logged out");
+  };
+}
+
+// ---------------------------------------------------------
+// Sidebar Toggle
+// ---------------------------------------------------------
+function setupSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const toggle = document.getElementById("toggleSidebar");
+
+  toggle.onclick = () => {
+    sidebar.classList.toggle("visible");
+    forceMapResize();
+  };
+}
+
+// ---------------------------------------------------------
+// Emergency Contacts
+// ---------------------------------------------------------
+function setupContacts() {
+  const openBtn = document.getElementById("openContactsBtn");
+  const modal = document.getElementById("contactsModal");
+  const closeBtn = document.getElementById("closeContacts");
+  const addBtn = document.getElementById("addContactBtn");
+
+  openBtn.onclick = async () => {
+    if (!getToken()) return toast("Login required", "#d9534f");
+    modal.classList.remove("hidden");
+    await loadContacts();
+    forceMapResize();
+  };
+
+  closeBtn.onclick = () => {
+    modal.classList.add("hidden");
+    forceMapResize();
+  };
+
+  addBtn.onclick = async () => {
+    const name = document.getElementById("contactName").value.trim();
+    const phone = document.getElementById("contactPhone").value.trim();
+
+    if (!phone) return toast("Phone number required", "#d9534f");
+
     try {
-        const response = await fetch(`${CONFIG.API_URL}/api/crime-stats`);
-        const data = await response.json();
-        const ctx = document.getElementById("crimeChart").getContext("2d");
-        if (window.crimeChartInstance) window.crimeChartInstance.destroy();
+      const res = await fetch(`${API}/api/contacts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({ name, phone })
+      });
 
-        window.crimeChartInstance = new Chart(ctx, {
-            type: "bar",
-            data: { 
-                labels: data.labels, 
-                datasets: [{
-                    label: "Incidents", 
-                    data: data.values, 
-                    backgroundColor: "rgba(255, 99, 132, 0.7)",
-                    borderColor: "rgba(255, 99, 132, 1)", 
-                    borderWidth: 2 
-                }] 
-            }
-        });
-    } catch (error) { console.error(error); }
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById("contactName").value = "";
+        document.getElementById("contactPhone").value = "";
+        await loadContacts();
+        toast("Contact added!");
+      } else {
+        toast(data.error, "#d9534f");
+      }
+
+    } catch {
+      toast("Request failed", "#d9534f");
+    }
+  };
 }
 
-console.log("🛡️ Safe Route Finder loaded");
+async function loadContacts() {
+  try {
+    const res = await fetch(`${API}/api/contacts`, { headers: authHeaders() });
+    const contacts = await res.json();
+
+    const list = document.getElementById("contactsList");
+    list.innerHTML = "";
+
+    if (!contacts.length) {
+      list.innerHTML = "<p>No contacts added.</p>";
+      return;
+    }
+
+    contacts.forEach(c => {
+      const div = document.createElement("div");
+      div.className = "contact-item";
+      div.innerHTML = `
+        <div class="contact-row">
+          <div>
+            <strong>${c.name || "Unnamed"}</strong><br>
+            <small>${c.phone}</small>
+          </div>
+          <button class="btn-secondary" onclick="deleteContact(${c.id})">Delete</button>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+
+  } catch (err) {
+    toast("Failed to load contacts", "#d9534f");
+  }
+}
+
+async function deleteContact(id) {
+  try {
+    const res = await fetch(`${API}/api/contacts`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", ...authHeaders() },
+      body: JSON.stringify({ id })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      loadContacts();
+      toast("Deleted");
+    } else {
+      toast("Failed to delete", "#d9534f");
+    }
+
+  } catch {
+    toast("Request failed", "#d9534f");
+  }
+}
+
+// ---------------------------------------------------------
+// SOS
+// ---------------------------------------------------------
+function setupSOS() {
+  const btn = document.getElementById("sosBtn");
+  btn.onclick = sendSOS;
+}
+
+async function sendSOS() {
+  if (!getToken()) return toast("Login to send SOS", "#d9534f");
+  if (!navigator.geolocation) return toast("Location unavailable", "#d9534f");
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const message = prompt("Message for SOS:", "I need help!");
+
+    const res = await fetch(`${API}/api/sos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authHeaders() },
+      body: JSON.stringify({ lat, lng, message })
+    });
+
+    const data = await res.json();
+
+    if (data.success) toast("SOS sent!");
+    else toast(data.error, "#d9534f");
+  });
+}
+
+// ---------------------------------------------------------
+// Route History
+// ---------------------------------------------------------
+function setupHistory() {
+  const btn = document.getElementById("openHistoryBtn");
+
+  btn.onclick = async () => {
+    if (!getToken()) return toast("Login to view history", "#d9534f");
+
+    const res = await fetch(`${API}/api/route-history`, { headers: authHeaders() });
+    const rows = await res.json();
+
+    if (!rows.length) {
+      toast("No history yet");
+      return;
+    }
+
+    let msg = "Your Routes:\n\n";
+    rows.forEach(r => {
+      msg += `${r.created_at} | Score: ${r.safety_score}\n`;
+    });
+
+    toast("History displayed in console");
+    console.log(msg);
+  };
+}
+
+// ---------------------------------------------------------
+// Report Issue
+// ---------------------------------------------------------
+function setupReport() {
+  const openBtn = document.getElementById("openReportSidebarBtn");
+  const modal = document.getElementById("reportModal");
+  const closeBtn = document.getElementById("closeReport");
+  const submitBtn = document.getElementById("submitReport");
+
+  openBtn.onclick = () => {
+    modal.classList.remove("hidden");
+    forceMapResize();
+  };
+
+  closeBtn.onclick = () => {
+    modal.classList.add("hidden");
+    forceMapResize();
+  };
+
+  submitBtn.onclick = async () => {
+    const type = document.getElementById("reportType").value;
+    const desc = document.getElementById("reportDescription").value;
+
+    if (!desc.trim()) return toast("Please add description", "#d9534f");
+
+    const body = {
+      report_type: type,
+      description: desc,
+      latitude: userLocation?.lat || null,
+      longitude: userLocation?.lng || null
+    };
+
+    try {
+      const res = await fetch(`${API}/api/report-issue`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast("Report submitted!");
+        modal.classList.add("hidden");
+      } else {
+        toast(data.error, "#d9534f");
+      }
+
+    } catch {
+      toast("Request failed", "#d9534f");
+    }
+
+    forceMapResize();
+  };
+}
+
+// ---------------------------------------------------------
+// On Page Load
+// ---------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("calcBtn").onclick = calculateRoute;
+
+  setupAuthUI();
+  setupLogout();
+  setupSidebar();
+  setupContacts();
+  setupSOS();
+  setupHistory();
+  setupReport();
+
+  loadAuthState();
+});
