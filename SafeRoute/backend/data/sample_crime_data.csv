@@ -1,0 +1,251 @@
+latitude,longitude,crime_type,date,severity,description
+17.3851,78.4868,Robbery,2024-01-03,5,Armed robbery near commercial area
+17.3837,78.4874,Assault,2024-01-10,4,Street fight reported
+17.3862,78.4882,Burglary,2024-01-15,5,House break-in in residential zone
+17.3880,78.4855,Assault,2024-02-01,4,Physical assault late night
+17.3845,78.4843,Robbery,2024-02-20,5,Store robbery at local shop
+17.3875,78.4890,Harassment,2024-03-05,4,Verbal harassment in public area
+17.3828,78.4858,Assault,2024-03-12,5,Domestic violence incident
+17.3859,78.4862,Burglary,2024-03-22,5,Office break-in reported
+17.3865,78.4870,Robbery,2024-04-08,5,Mugging incident in market
+17.3830,78.4885,Harassment,2024-04-15,4,Harassment by stranger
+17.3853,78.4860,Robbery,2024-04-20,5,ATM robbery reported
+17.3848,78.4872,Assault,2024-05-01,4,Street fight near metro station
+17.3868,78.4855,Burglary,2024-05-08,5,Home burglary in residential complex
+17.3872,78.4880,Robbery,2024-05-15,5,Store robbery in commercial hub
+17.3835,78.4865,Assault,2024-05-20,4,Physical altercation reported
+17.3840,78.4850,Harassment,2024-05-28,4,Public harassment complaint
+17.3855,78.4875,Robbery,2024-06-03,5,Mugging incident near bank
+17.3860,78.4862,Assault,2024-06-10,4,Assault on street reported
+17.3825,78.4845,Burglary,2024-06-18,5,House break-in at night
+17.3882,78.4892,Robbery,2024-06-25,5,Robbery in market area
+17.3856,78.4858,Assault,2024-07-02,4,Street fight near bus stop
+17.3863,78.4865,Burglary,2024-07-10,5,Office burglary
+17.3842,78.4870,Robbery,2024-07-15,5,ATM robbery
+17.3839,78.4863,Harassment,2024-07-22,4,Harassment in park
+17.3871,78.4852,Assault,2024-07-28,4,Physical altercation reported
+17.3858,78.4860,Robbery,2024-08-05,5,Store robbery
+17.3866,78.4881,Burglary,2024-08-12,5,Residential burglary
+17.3844,78.4855,Assault,2024-08-20,4,Street fight
+17.3829,78.4875,Robbery,2024-08-28,5,Mugging incident
+17.3861,78.4868,Harassment,2024-09-03,4,Verbal harassment
+17.3852,78.4872,Burglary,2024-09-10,5,Office break-in
+17.3836,78.4859,Assault,2024-09-18,4,Physical assault reported
+17.3874,78.4885,Robbery,2024-09-25,5,ATM robbery
+17.3846,78.4861,Burglary,2024-10-01,5,House break-in
+17.3864,78.4857,Assault,2024-10-08,4,Street fight
+17.3838,78.4869,Robbery,2024-10-15,5,Store robbery
+17.3850,78.4875,Harassment,2024-10-22,4,Harassment complaint
+17.3867,78.4882,Burglary,2024-10-30,5,Office burglary
+17.3841,78.4858,Assault,2024-11-05,4,Physical altercation
+17.3870,78.4864,Robbery,2024-11-12,5,ATM mugging
+17.3854,78.4869,Burglary,2024-11-20,5,Residential break-in
+17.3837,78.4873,Assault,2024-11-28,4,Street fight incident
+17.3862,78.4855,Robbery,2024-12-05,5,Store robbery in market
+17.3849,78.4860,Harassment,2024-12-12,4,Harassment at park
+17.3873,78.4879,Burglary,2024-12-20,5,Office break-in
+17.3857,78.4863,Assault,2024-12-28,4,Physical altercation
+28.6139,77.2090,Robbery,2024-01-05,5,ATM robbery near Connaught Place
+28.6170,77.2100,Assault,2024-01-12,4,Street fight in Karol Bagh
+28.6155,77.2085,Burglary,2024-01-20,5,Residential break-in in South Delhi
+28.6190,77.2150,Robbery,2024-02-03,5,Store robbery near INA Market
+28.6165,77.2120,Assault,2024-02-10,4,Physical assault reported in Lajpat Nagar
+28.6130,77.2075,Burglary,2024-02-18,5,Office burglary in Connaught Place
+28.6200,77.2160,Robbery,2024-03-05,5,Mugging in Chandni Chowk
+28.6145,77.2095,Assault,2024-03-12,4,Street fight near Rajpath
+28.6180,77.2140,Burglary,2024-03-20,5,House break-in in Defence Colony
+28.6175,77.2115,Robbery,2024-04-02,5,ATM robbery near India Gate
+28.6150,77.2080,Assault,2024-04-10,4,Physical altercation reported
+28.6195,77.2170,Burglary,2024-04-18,5,Residential burglary in Rohini
+28.6160,77.2130,Robbery,2024-05-01,5,Store robbery in Dwarka
+28.6135,77.2095,Assault,2024-05-08,4,Street fight in Connaught Place
+28.6205,77.2155,Burglary,2024-05-15,5,Office break-in in Karol Bagh
+28.6140,77.2105,Robbery,2024-05-22,5,ATM robbery near Lajpat Nagar
+28.6185,77.2145,Assault,2024-06-03,4,Physical assault reported
+28.6170,77.2120,Burglary,2024-06-10,5,Residential burglary in Vasant Kunj
+28.6155,77.2090,Robbery,2024-06-18,5,Store robbery in Paharganj
+28.6190,77.2175,Assault,2024-06-25,4,Street fight near AIIMS
+28.6165,77.2135,Burglary,2024-07-01,5,House break-in in South Extension
+28.6130,77.2085,Robbery,2024-07-10,5,ATM robbery in Connaught Place
+28.6200,77.2165,Assault,2024-07-18,4,Physical altercation reported
+28.6145,77.2100,Burglary,2024-07-25,5,Office burglary in Karol Bagh
+28.6180,77.2145,Robbery,2024-08-01,5,Store robbery in Chandni Chowk
+28.6175,77.2125,Assault,2024-08-08,4,Street fight near Lodhi Road
+28.6150,77.2085,Burglary,2024-08-15,5,Residential burglary in Vasant Vihar
+28.6195,77.2170,Robbery,2024-08-22,5,ATM robbery near Rajiv Chowk
+28.6160,77.2135,Assault,2024-08-30,4,Physical assault reported
+28.6135,77.2090,Burglary,2024-09-05,5,Office break-in in Connaught Place
+28.6205,77.2160,Robbery,2024-09-12,5,Store robbery in Karol Bagh
+28.6140,77.2105,Assault,2024-09-20,4,Street fight near INA Market
+28.6185,77.2140,Burglary,2024-09-28,5,Residential burglary in Rohini
+28.6170,77.2125,Robbery,2024-10-05,5,ATM robbery near India Gate
+28.6155,77.2095,Assault,2024-10-12,4,Physical altercation reported
+19.0760,72.8777,Robbery,2024-01-05,5,ATM robbery in Colaba
+19.0800,72.8800,Assault,2024-01-12,4,Street fight near CST
+19.0750,72.8700,Burglary,2024-01-20,5,Residential break-in in Bandra
+19.0850,72.8800,Robbery,2024-02-03,5,Store robbery in Andheri
+19.0780,72.8750,Assault,2024-02-10,4,Physical assault reported in Dadar
+19.0720,72.8650,Burglary,2024-02-18,5,Office break-in near Malad
+19.0820,72.8850,Robbery,2024-03-05,5,Mugging in Churchgate
+19.0770,72.8700,Assault,2024-03-12,4,Street fight in Lower Parel
+19.0790,72.8720,Burglary,2024-03-20,5,Residential burglary in Santacruz
+19.0810,72.8780,Robbery,2024-04-02,5,ATM robbery in Powai
+19.0730,72.8670,Assault,2024-04-10,4,Physical altercation near Kurla
+19.0840,72.8820,Burglary,2024-04-18,5,Office burglary in Vile Parle
+19.0765,72.8755,Robbery,2024-05-01,5,Store robbery in Lower Parel
+19.0785,72.8730,Assault,2024-05-08,4,Street fight near Bandra West
+19.0805,72.8790,Burglary,2024-05-15,5,Residential break-in in Colaba
+19.0775,72.8710,Robbery,2024-05-22,5,ATM robbery near CST
+19.0755,72.8680,Assault,2024-06-03,4,Physical assault reported in Dadar
+19.0830,72.8830,Burglary,2024-06-10,5,Office break-in in Andheri
+19.0795,72.8745,Robbery,2024-06-18,5,Store robbery near Bandra East
+19.0760,72.8720,Assault,2024-06-25,4,Street fight in Malad
+19.0825,72.8805,Burglary,2024-07-01,5,Residential burglary in Churchgate
+19.0780,72.8755,Robbery,2024-07-10,5,ATM robbery in Lower Parel
+19.0750,72.8690,Assault,2024-07-18,4,Physical altercation reported
+19.0845,72.8845,Burglary,2024-07-25,5,Office burglary in Santacruz
+19.0775,72.8735,Robbery,2024-08-01,5,Store robbery in Powai
+19.0795,72.8760,Assault,2024-08-08,4,Street fight near Vile Parle
+19.0815,72.8795,Burglary,2024-08-15,5,Residential break-in in Colaba
+19.0770,72.8705,Robbery,2024-08-22,5,ATM robbery near CST
+19.0755,72.8685,Assault,2024-08-30,4,Physical assault reported
+19.0835,72.8825,Burglary,2024-09-05,5,Office break-in in Andheri
+19.0790,72.8740,Robbery,2024-09-12,5,Store robbery near Bandra West
+19.0765,72.8730,Assault,2024-09-20,4,Street fight in Lower Parel
+19.0820,72.8810,Burglary,2024-09-28,5,Residential burglary in Churchgate
+19.0785,72.8750,Robbery,2024-10-05,5,ATM robbery near CST
+19.0760,72.8715,Assault,2024-10-12,4,Physical altercation reported
+12.9716,77.5946,Robbery,2024-01-05,5,ATM robbery near MG Road
+12.9750,77.6000,Assault,2024-01-12,4,Street fight in Indiranagar
+12.9700,77.5900,Burglary,2024-01-20,5,Residential break-in in Jayanagar
+12.9800,77.6050,Robbery,2024-02-03,5,Store robbery in Koramangala
+12.9730,77.5950,Assault,2024-02-10,4,Physical assault near Whitefield
+12.9680,77.5850,Burglary,2024-02-18,5,Office break-in in Rajajinagar
+12.9760,77.5980,Robbery,2024-03-05,5,Mugging in Church Street
+12.9715,77.5930,Assault,2024-03-12,4,Street fight near Lalbagh
+12.9780,77.6020,Burglary,2024-03-20,5,Residential burglary in HSR Layout
+12.9755,77.5960,Robbery,2024-04-02,5,ATM robbery in Indiranagar
+12.9705,77.5890,Assault,2024-04-10,4,Physical altercation reported
+12.9795,77.6035,Burglary,2024-04-18,5,Office break-in in Koramangala
+12.9735,77.5940,Robbery,2024-05-01,5,Store robbery near MG Road
+12.9710,77.5915,Assault,2024-05-08,4,Street fight in Jayanagar
+12.9775,77.5990,Burglary,2024-05-15,5,Residential break-in in HSR Layout
+12.9740,77.5955,Robbery,2024-05-22,5,ATM robbery near Whitefield
+12.9700,77.5885,Assault,2024-06-03,4,Physical assault reported
+12.9785,77.6025,Burglary,2024-06-10,5,Office break-in in Koramangala
+12.9750,77.5965,Robbery,2024-06-18,5,Store robbery in Indiranagar
+12.9715,77.5905,Assault,2024-06-25,4,Street fight near Lalbagh
+12.9770,77.5980,Burglary,2024-07-01,5,Residential burglary in Jayanagar
+12.9730,77.5945,Robbery,2024-07-10,5,ATM robbery near MG Road
+12.9705,77.5895,Assault,2024-07-18,4,Physical altercation reported
+12.9780,77.6020,Burglary,2024-07-25,5,Office break-in in HSR Layout
+12.9755,77.5965,Robbery,2024-08-01,5,Store robbery near Whitefield
+12.9710,77.5900,Assault,2024-08-08,4,Street fight in Koramangala
+12.9775,77.5995,Burglary,2024-08-15,5,Residential break-in in Indiranagar
+12.9735,77.5945,Robbery,2024-08-22,5,ATM robbery near MG Road
+12.9715,77.5910,Assault,2024-08-30,4,Physical altercation reported
+12.9785,77.6025,Burglary,2024-09-05,5,Office break-in in Jayanagar
+12.9750,77.5960,Robbery,2024-09-12,5,Store robbery in Indiranagar
+12.9710,77.5905,Assault,2024-09-20,4,Street fight near Lalbagh
+12.9770,77.5985,Burglary,2024-09-28,5,Residential burglary in HSR Layout
+12.9730,77.5950,Robbery,2024-10-05,5,ATM robbery near MG Road
+12.9715,77.5915,Assault,2024-10-12,4,Physical altercation reported
+13.0827,80.2707,Robbery,2024-01-05,5,ATM robbery near T Nagar
+13.0850,80.2715,Assault,2024-01-12,4,Street fight in Egmore
+13.0800,80.2650,Burglary,2024-01-20,5,Residential break-in in Mylapore
+13.0900,80.2750,Robbery,2024-02-03,5,Store robbery in Velachery
+13.0830,80.2720,Assault,2024-02-10,4,Physical assault reported in Adyar
+13.0780,80.2680,Burglary,2024-02-18,5,Office break-in in Anna Nagar
+13.0860,80.2735,Robbery,2024-03-05,5,Mugging in Nungambakkam
+13.0815,80.2700,Assault,2024-03-12,4,Street fight near Besant Nagar
+13.0880,80.2745,Burglary,2024-03-20,5,Residential burglary in Velachery
+13.0845,80.2725,Robbery,2024-04-02,5,ATM robbery in T Nagar
+13.0795,80.2690,Assault,2024-04-10,4,Physical altercation reported
+13.0875,80.2730,Burglary,2024-04-18,5,Office break-in in Adyar
+13.0825,80.2710,Robbery,2024-05-01,5,Store robbery near Mylapore
+13.0805,80.2675,Assault,2024-05-08,4,Street fight in Anna Nagar
+13.0855,80.2735,Burglary,2024-05-15,5,Residential break-in in Nungambakkam
+13.0835,80.2720,Robbery,2024-05-22,5,ATM robbery near T Nagar
+13.0790,80.2685,Assault,2024-06-03,4,Physical assault reported
+13.0870,80.2735,Burglary,2024-06-10,5,Office break-in in Velachery
+13.0840,80.2725,Robbery,2024-06-18,5,Store robbery in Adyar
+13.0810,80.2705,Assault,2024-06-25,4,Street fight near Besant Nagar
+13.0865,80.2730,Burglary,2024-07-01,5,Residential burglary in Mylapore
+13.0830,80.2715,Robbery,2024-07-10,5,ATM robbery near T Nagar
+13.0800,80.2680,Assault,2024-07-18,4,Physical altercation reported
+13.0880,80.2740,Burglary,2024-07-25,5,Office break-in in Adyar
+13.0845,80.2725,Robbery,2024-08-01,5,Store robbery near Velachery
+13.0815,80.2710,Assault,2024-08-08,4,Street fight in Anna Nagar
+13.0875,80.2735,Burglary,2024-08-15,5,Residential break-in in Nungambakkam
+13.0835,80.2720,Robbery,2024-08-22,5,ATM robbery near T Nagar
+13.0805,80.2695,Assault,2024-08-30,4,Physical altercation reported
+13.0885,80.2745,Burglary,2024-09-05,5,Office break-in in Mylapore
+13.0840,80.2725,Robbery,2024-09-12,5,Store robbery near Adyar
+13.0810,80.2705,Assault,2024-09-20,4,Street fight in Besant Nagar
+13.0865,80.2730,Burglary,2024-09-28,5,Residential burglary in Velachery
+13.0830,80.2715,Robbery,2024-10-05,5,ATM robbery near T Nagar
+13.0805,80.2690,Assault,2024-10-12,4,Physical altercation reported
+22.5726,88.3639,Robbery,2024-01-05,5,ATM robbery near Park Street
+22.5750,88.3680,Assault,2024-01-12,4,Street fight in Salt Lake
+22.5700,88.3600,Burglary,2024-01-20,5,Residential break-in in Ballygunge
+22.5780,88.3700,Robbery,2024-02-03,5,Store robbery in Howrah
+22.5730,88.3650,Assault,2024-02-10,4,Physical assault reported in Sealdah
+22.5690,88.3580,Burglary,2024-02-18,5,Office break-in in Alipore
+22.5760,88.3670,Robbery,2024-03-05,5,Mugging near Esplanade
+22.5715,88.3620,Assault,2024-03-12,4,Street fight in Ballygunge
+22.5785,88.3685,Burglary,2024-03-20,5,Residential burglary in Park Circus
+22.5745,88.3640,Robbery,2024-04-02,5,ATM robbery in Park Street
+22.5705,88.3590,Assault,2024-04-10,4,Physical altercation reported
+22.5775,88.3675,Burglary,2024-04-18,5,Office break-in in Salt Lake
+22.5725,88.3635,Robbery,2024-05-01,5,Store robbery near Esplanade
+22.5700,88.3610,Assault,2024-05-08,4,Street fight in Alipore
+22.5765,88.3670,Burglary,2024-05-15,5,Residential break-in in Ballygunge
+22.5735,88.3645,Robbery,2024-05-22,5,ATM robbery near Park Street
+22.5695,88.3585,Assault,2024-06-03,4,Physical assault reported
+22.5780,88.3680,Burglary,2024-06-10,5,Office break-in in Howrah
+22.5740,88.3640,Robbery,2024-06-18,5,Store robbery near Esplanade
+22.5710,88.3625,Assault,2024-06-25,4,Street fight in Ballygunge
+22.5775,88.3675,Burglary,2024-07-01,5,Residential burglary in Alipore
+22.5730,88.3640,Robbery,2024-07-10,5,ATM robbery near Park Street
+22.5705,88.3615,Assault,2024-07-18,4,Physical altercation reported
+22.5785,88.3685,Burglary,2024-07-25,5,Office break-in in Ballygunge
+22.5740,88.3640,Robbery,2024-08-01,5,Store robbery near Esplanade
+22.5710,88.3625,Assault,2024-08-08,4,Street fight in Salt Lake
+22.5770,88.3675,Burglary,2024-08-15,5,Residential break-in in Park Circus
+22.5730,88.3640,Robbery,2024-08-22,5,ATM robbery near Park Street
+22.5705,88.3615,Assault,2024-08-30,4,Physical altercation reported
+22.5780,88.3680,Burglary,2024-09-05,5,Office break-in in Ballygunge
+22.5740,88.3640,Robbery,2024-09-12,5,Store robbery near Esplanade
+22.5710,88.3625,Assault,2024-09-20,4,Street fight in Alipore
+22.5775,88.3675,Burglary,2024-09-28,5,Residential burglary in Ballygunge
+22.5730,88.3640,Robbery,2024-10-05,5,ATM robbery near Park Street
+22.5705,88.3615,Assault,2024-10-12,4,Physical altercation reported
+18.5204,73.8567,Robbery,2024-01-05,5,ATM robbery near Shivaji Nagar
+18.5250,73.8600,Assault,2024-01-12,4,Street fight in Koregaon Park
+18.5180,73.8520,Burglary,2024-01-20,5,Residential break-in in Kalyani Nagar
+18.5300,73.8650,Robbery,2024-02-03,5,Store robbery in Baner
+18.5220,73.8570,Assault,2024-02-10,4,Physical assault reported in Hinjewadi
+18.5170,73.8510,Burglary,2024-02-18,5,Office break-in in Aundh
+18.5280,73.8620,Robbery,2024-03-05,5,Mugging in FC Road
+18.5215,73.8560,Assault,2024-03-12,4,Street fight near Shivaji Nagar
+18.5290,73.8635,Burglary,2024-03-20,5,Residential burglary in Kalyani Nagar
+18.5235,73.8580,Robbery,2024-04-02,5,ATM robbery in Koregaon Park
+18.5185,73.8525,Assault,2024-04-10,4,Physical altercation reported
+18.5270,73.8625,Burglary,2024-04-18,5,Office break-in in Baner
+18.5225,73.8575,Robbery,2024-05-01,5,Store robbery near FC Road
+18.5200,73.8550,Assault,2024-05-08,4,Street fight in Hinjewadi
+18.5265,73.8615,Burglary,2024-05-15,5,Residential break-in in Aundh
+18.5230,73.8570,Robbery,2024-05-22,5,ATM robbery near Shivaji Nagar
+18.5185,73.8525,Assault,2024-06-03,4,Physical assault reported
+18.5275,73.8625,Burglary,2024-06-10,5,Office break-in in Kalyani Nagar
+18.5220,73.8570,Robbery,2024-06-18,5,Store robbery near Koregaon Park
+18.5205,73.8555,Assault,2024-06-25,4,Street fight in Baner
+18.5260,73.8620,Burglary,2024-07-01,5,Residential burglary in Aundh
+18.5230,73.8570,Robbery,2024-07-10,5,ATM robbery near FC Road
+18.5205,73.8555,Assault,2024-07-18,4,Physical altercation reported
+18.5270,73.8625,Burglary,2024-07-25,5,Office break-in in Baner
+18.5225,73.8575,Robbery,2024-08-01,5,Store robbery near Shivaji Nagar
+18.5200,73.8550,Assault,2024-08-08,4,Street fight in Koregaon Park
+18.5265,73.8615,Burglary,2024-08-15,5,Residential break-in in Kalyani Nagar
+18.5230,73.8570,Robbery,2024-08-22,5,ATM robbery near FC Road
+18.5205,73.8555,Assault,2024-08-30,4,Physical altercation reported
