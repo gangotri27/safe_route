@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SafeRoute</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js for crime stats -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <!-- MarkerClusterer (official) -->
+  <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
+
+  <!-- Your config & app — load before maps script so initMap exists -->
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+
+  <!-- Google Maps - include places & visualization libraries. 
+       IMPORTANT: Replace YOUR_GOOGLE_MAPS_API_KEY with your actual API key -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAebd8duQVQT7TL9lL29FJaXef4IfZTtnI&libraries=places,visualization&callback=initMap"
+    defer
+  ></script>
+</head>
+
+<body>
+
+  <!-- Sidebar Toggle -->
+  <button id="toggleSidebar" class="sidebar-toggle">☰</button>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+    <h2 class="sidebar-title">SafeRoute</h2>
+
+    <div class="profile-box">
+      <h3 id="profileName">Guest</h3>
+      <p id="profileEmail"></p>
+    </div>
+
+    <button id="openLoginBtn" class="btn-secondary">Login / Register</button>
+    <button id="logoutBtn" class="btn-secondary hidden">Logout</button>
+
+    <hr />
+
+    <button id="openContactsBtn" class="btn-secondary">Emergency Contacts</button>
+    <button id="sosBtn" class="btn-primary">🚨 SOS</button>
+    <button id="openHistoryBtn" class="btn-secondary">Location History</button>
+    <button id="openReportSidebarBtn" class="btn-secondary">Report Issue</button>
+
+    <hr />
+
+    <div>
+      <h4 style="margin-bottom:8px;">Crime Statistics</h4>
+      <canvas id="crimeChart" width="250" height="150"></canvas>
+      <button id="refreshCrimes" class="btn-secondary" style="margin-top:8px;">Refresh</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>SafeRoute</h1>
+    <p>Your personal safe navigation companion</p>
+  </div>
+
+  <!-- Controls -->
+  <div class="container">
+    <input id="start" type="text" placeholder="Enter starting location" class="input-field" />
+    <input id="end" type="text" placeholder="Enter destination" class="input-field" />
+
+    <div style="display:flex; gap:10px;">
+      <button id="calcBtn" class="btn-primary" style="flex:1;">Calculate Safe Route</button>
+      <button id="clearRoutesBtn" class="btn-secondary" style="width:120px;">Clear</button>
+    </div>
+
+    <p id="routeStatus"></p>
+
+    <!-- Route options list -->
+    <div id="routesList" class="routes-list hidden"></div>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="authClose" class="close">&times;</span>
+      <h2 id="authTitle">Login</h2>
+      <form id="authForm">
+        <label>Email</label>
+        <input type="email" id="authEmail" class="input-field" required />
+        <label>Password</label>
+        <input type="password" id="authPassword" class="input-field" required />
+        <div id="nameGroup" style="display:none;">
+          <label>Name</label>
+          <input type="text" id="authName" class="input-field" />
+        </div>
+        <button id="authSubmit" class="btn-primary" type="submit">Login</button>
+        <p style="text-align:center;margin-top:10px;">
+          <a href="#" id="toggleAuthMode">Don't have an account? Register</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONTACTS MODAL -->
+  <div id="contactsModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeContacts" class="close">&times;</span>
+      <h2>Emergency Contacts</h2>
+      <div id="contactsList" style="margin-bottom:12px;"></div>
+      <h3>Add Contact</h3>
+      <input id="contactName" class="input-field" placeholder="Name (optional)" />
+      <input id="contactPhone" class="input-field" placeholder="Phone (+91...)" />
+      <button id="addContactBtn" class="btn-primary">Add Contact</button>
+    </div>
+  </div>
+
+  <!-- REPORT MODAL -->
+  <div id="reportModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeReport" class="close">&times;</span>
+      <h2>Report an Issue</h2>
+      <label>Type of Issue</label>
+      <select id="reportType" class="input-field">
+        <option value="suspicious_activity">Suspicious Activity</option>
+        <option value="harassment">Harassment</option>
+        <option value="unsafe_area">Unsafe Area</option>
+      </select>
+      <label>Description</label>
+      <textarea id="reportDescription" rows="3" class="input-field"></textarea>
+      <button id="submitReport" class="btn-primary">Submit Report</button>
+    </div>
+  </div>
+
+  <!-- STATS MODAL -->
+  <div id="statsModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeStats" class="close">&times;</span>
+      <h2>Crime Statistics</h2>
+      <canvas id="crimeChartModal" width="400" height="250"></canvas>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+</body>
+</html>
