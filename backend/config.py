@@ -1,0 +1,16 @@
+# API Keys - Add your keys here later
+GOOGLE_MAPS_API_KEY = "AIzaSyAebd8duQVQT7TL9lL29FJaXef4IfZTtnI"
+MAPBOX_API_KEY = "YOUR_MAPBOX_API_KEY_HERE"
+
+# Twilio (Optional - for SMS alerts)
+TWILIO_SID = "YOUR_TWILIO_SID_HERE"
+TWILIO_TOKEN = "YOUR_TWILIO_TOKEN_HERE"
+TWILIO_NUMBER = "+1234567890"
+
+# Database
+DATABASE_NAME = "safe_route.db"
+
+# Server settings
+FLASK_PORT = 5000
+FLASK_DEBUG = True
+

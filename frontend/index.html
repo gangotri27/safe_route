@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#667eea">
+    
+    <title>🛡️ Safe Route Finder</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAebd8duQVQT7TL9lL29FJaXef4IfZTtnI
+&libraries=places"></script>
+
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🛡️ Safe Route Finder</h1>
+            <p>Navigate safely through crime-free routes</p>
+            <div id="currentTime"></div>
+        </header>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>📍 Starting Point</label>
+                    <input type="text" id="startInput" placeholder="Enter starting address">
+                    <button class="btn-secondary" id="useCurrentLocation">Use My Location</button>
+                </div>
+                
+                <div class="input-group">
+                    <label>🎯 Destination</label>
+                    <input type="text" id="endInput" placeholder="Enter destination">
+                </div>
+            </div>
+            
+            <button id="findRouteBtn" class="btn-primary">
+                Find Safest Route
+            </button>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-section">
+            <div id="map"></div>
+            
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>Calculating safest route...</p>
+            </div>
+        </div>
+
+        <!-- Safety Info Panel -->
+        <div class="info-panel">
+            <div class="info-card">
+                <h3>Route Safety Score</h3>
+                <div id="safetyScore" class="safety-score">--</div>
+                <div id="safetyLevel" class="safety-level">No route selected</div>
+            </div>
+            
+            <div class="info-card">
+                <h3>Crime Incidents Nearby</h3>
+                <div id="crimeCount" class="crime-count">--</div>
+            </div>
+            
+            <div class="info-card">
+                <h3>Quick Actions</h3>
+                <button class="btn-secondary btn-small" id="reportIncidentBtn">
+                    ⚠️ Report Incident
+                </button>
+                <button class="btn-secondary btn-small" id="viewStatsBtn">
+                    📊 View Statistics
+                </button>
+            </div>
+        </div>
+
+        <!-- Crime Statistics Chart -->
+        <div class="chart-section hidden" id="chartSection">
+            <h3>Crime Statistics</h3>
+            <canvas id="crimeChart"></canvas>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h4>Crime Severity</h4>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #90EE90;"></span>
+                <span>Minor (1)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #FFD700;"></span>
+                <span>Low (2)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #FFA500;"></span>
+                <span>Medium (3)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #FF6347;"></span>
+                <span>High (4)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background: #DC143C;"></span>
+                <span>Severe (5)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Incident Modal -->
+    <div id="reportModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Report an Incident</h2>
+            <form id="reportForm">
+                <div class="form-group">
+                    <label>Incident Type</label>
+                    <select id="incidentType" required>
+                        <option value="">Select type...</option>
+                        <option value="Theft">Theft</option>
+                        <option value="Assault">Assault</option>
+                        <option value="Robbery">Robbery</option>
+                        <option value="Harassment">Harassment</option>
+                        <option value="Vandalism">Vandalism</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="incidentDescription" rows="4" placeholder="Describe what happened..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="useCurrentLocationForReport">
+                        Use my current location
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Config -->
+    <script src="config.js"></script>
+    
+    <!-- Main App -->
+    <script src="app.js"></script>
+</body>
+</html>
