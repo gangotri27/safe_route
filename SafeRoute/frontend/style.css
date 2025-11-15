@@ -1,14 +1,12 @@
-/* ---------------------------------------------------------
-   Global
---------------------------------------------------------- */
+/* style.css - final */
+/* Global */
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   background: #f7f7f7;
   color: #222;
 }
-
-h1, h2, h3, p { margin: 0; padding: 0; }
+h1,h2,h3,p { margin:0; padding:0; }
 
 /* Header */
 .header {
@@ -102,77 +100,35 @@ h1, h2, h3, p { margin: 0; padding: 0; }
 }
 .sidebar.visible { transform: translateX(0); }
 
-.sidebar-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
+.sidebar-title { font-size:20px; font-weight:700; margin-bottom:12px; }
+.profile-box { background:#f3f3f3; padding:10px; border-radius:8px; margin-bottom:12px; }
 
-.profile-box {
-  background: #f3f3f3;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
-/* IMPORTANT FIX — only modals use .hidden */
-.modal.hidden {
-  display: none !important;
-}
-
-/* Modals */
+/* Modal common */
+.modal.hidden { display: none !important; }
 .modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.45);
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; left:0; top:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.45); z-index: 3000;
+  display:flex; align-items:center; justify-content:center;
 }
-
-.modal-content {
-  width: 92%;
-  max-width: 480px;
-  background: #fff;
-  padding: 18px;
-  border-radius: 12px;
-  position: relative;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-}
-
-.modal-content .close {
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  cursor: pointer;
-  font-size: 20px;
-}
+.modal-content { width:92%; max-width:480px; background:#fff; padding:18px; border-radius:12px; position:relative; box-shadow:0 12px 30px rgba(0,0,0,0.2); }
+.modal-content .close { position:absolute; right:12px; top:10px; font-size:20px; cursor:pointer; }
 
 /* Contacts */
-.contact-item {
-  background: #fafafa;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-.contact-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.contact-actions button { margin-left: 8px; }
+.contact-item { background:#fafafa; border:1px solid #eee; padding:10px; border-radius:8px; margin-bottom:8px; }
+.contact-row { display:flex; justify-content:space-between; align-items:center; }
 
-/* small screens */
-@media (max-width: 700px) {
-  #map { height: 55vh; }
-  .sidebar { width: 220px; }
-}
+/* Routes list */
+.routes-list { margin-top:12px; border-radius:8px; border:1px solid #eee; padding:8px; background:#fff; }
+.routes-list.hidden { display:none; }
+.route-item { display:flex; align-items:center; gap:10px; padding:8px; border-bottom:1px dashed #eee; border-radius:6px; }
+.route-item:last-child { border-bottom:none; }
+.route-badge { width:88px; min-width:88px; color:white; text-align:center; padding:6px; border-radius:6px; font-weight:700; }
+.route-meta { flex:1; font-size:14px; color:#444; }
+.route-select { padding:6px 10px; border-radius:6px; cursor:pointer; }
+.route-item.selected { box-shadow:0 6px 18px rgba(0,0,0,0.08); transform:translateY(-1px); }
+.route-best { background: linear-gradient(90deg, rgba(240,255,240,0.6), #fff); }
 
+/* Toast */
 .toast {
   position: fixed;
   bottom: 22px;
@@ -188,7 +144,10 @@ h1, h2, h3, p { margin: 0; padding: 0; }
   transition: opacity 0.4s ease;
   z-index: 4000;
 }
+.toast.show { opacity: 1; }
 
-.toast.show {
-  opacity: 1;
+/* Small screens */
+@media (max-width:700px) {
+  #map { height:55vh; }
+  .sidebar { width:220px; }
 }
